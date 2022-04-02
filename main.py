@@ -64,7 +64,6 @@ def sisselogimine():
         sisselogimine()
 
 
-    #heading = driver.find_element_by_xpath("//div[@class='daily-summaries-segment']//h2[@class='daily-summaries-segment-heading']").getText()
 
 def peaaken():
     driver.get('https://elva.ope.ee/auth/')
@@ -75,6 +74,7 @@ def peaaken():
     print(' ')
     print('[1] Kursuste arv')
     print('[2] Suhtlus')
+    print('[3] Kodutöö')
     print(' ')
     crnt_url = driver.current_url
     j = 22
@@ -97,6 +97,61 @@ def peaaken():
         kursus_cnt()
     elif sel2 == '2':
         suhtlus()
+    elif sel2 == '3':
+        hmwrk()
+
+def hmwrk():
+    v = '1'
+    d = '1'
+    os.system('clear')
+    z = True
+    while z == True:
+        try:
+            date_hmwrk = driver.find_element_by_xpath('/html/body/div/div[4]/div[1]/div[1]/div[1]/div[2]/div[1]/div[3]/div[1]/div[2]/h4['+ v +']').text
+            print(' ')
+            print(date_hmwrk)
+            print(' ')
+            v = int(v)
+            v = v + 1
+            v = str(v)
+        except NoSuchElementException:
+            try:
+                v = int(v)
+                v = v + 1
+                v = str(v)
+                date_hmwrk = driver.find_element_by_xpath('/html/body/div/div[4]/div[1]/div[1]/div[1]/div[2]/div[1]/div[3]/div[1]/div[2]/h4['+ v +']').text
+                print(' ')
+                print(date_hmwrk)
+                print(' ')
+            except NoSuchElementException:
+                z = False
+
+
+        try:
+            content_hmwrk = driver.find_element_by_xpath('/html/body/div/div[4]/div[1]/div[1]/div[1]/div[2]/div[1]/div[3]/div[1]/div[2]/div['+ d +']/div').text
+            print(content_hmwrk)
+            d = int(d)
+            d = d + 1
+            d = str(d)
+        except NoSuchElementException:
+            try:
+                d = int(d)
+                d = d + 1
+                d = str(d)
+                content_hmwrk = driver.find_element_by_xpath('/html/body/div/div[4]/div[1]/div[1]/div[1]/div[2]/div[1]/div[3]/div[1]/div[2]/div['+ d +']/div').text
+                print(content_hmwrk)
+            except NoSuchElementException:
+                z = False
+
+
+    print(' ')
+    print('PEALEHT >> KODUTÖÖ')
+    print(' ')
+    print('VALI TEGEVUS')
+    print(' ')
+    input('VAJUTA ENTER ET TAGSI MINNA...')
+    peaaken()
+
     
 
 def kursus_cnt():
@@ -165,14 +220,16 @@ def kursus_cnt():
             # Append text at the end of file
             file_object.write('hinne '+vrbl+' || '+'tr '+b+' || '+'td '+c+' || '+'span '+p+' || '+'Kursuse_num '+str(kursus_sum))
         """
-
+        """
         print(vrbl)
         print(' ')
         print('tr ' + b)
         print('td ' + c)
         print('span ' + p)
         print('Kursuste arv ' + str(kursus_sum))
+        """
     print ('SUL ON ' + str(kursus_sum) + ' KURSUST')
+    print(' ')
     input('VAJUTA ENTER ET MINNA TAGASI...')
     peaaken()
 
