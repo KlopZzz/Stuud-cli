@@ -67,6 +67,7 @@ def sisselogimine():
     #heading = driver.find_element_by_xpath("//div[@class='daily-summaries-segment']//h2[@class='daily-summaries-segment-heading']").getText()
 
 def peaaken():
+    driver.get('https://elva.ope.ee/auth/')
     os.system('clear')
     print('TE OLETE EDUKALT SISSE LOGITUD')
     print(' ')
@@ -77,6 +78,7 @@ def peaaken():
     print(' ')
     crnt_url = driver.current_url
     j = 22
+    global stdnt_id
     stdnt_id = ''
     s = False
     while s == False:
@@ -96,8 +98,6 @@ def peaaken():
     elif sel2 == '2':
         suhtlus()
     
-    body = driver.find_element_by_xpath('/html/body').text
-    print(body)
 
 def kursus_cnt():
     os.system('clear')
@@ -105,19 +105,76 @@ def kursus_cnt():
     print(' ')
     driver.get('https://elva.ope.ee/users/summary/'+stdnt_id)
     sleep(1)
-    nmbrs = ['1', '2', '3', '4', '5']
-    c = 4
-    p = 1
+    nmbrs = ['1', '2', '3', '4', '5', 'A']
+    c = '4'
+    global p
+    p = '1'
+    global b
+    b = '1'
     kursus_sum = 0
-    while True:
+    g = True
+    while g == True:
+        if g == False:
+            break
         try:
-            vrbl = driver.find_element_by_xpath('/html/body/div/div[4]/div[1]/div[1]/div[1]/div[2]/div[2]/table/tbody/tr[1]/td['+ c + ']/span[' + p + ']').text
+            vrbl = driver.find_element_by_xpath('/html/body/div/div[4]/div[1]/div[1]/div[1]/div[2]/div[2]/table/tbody/tr[' + b + ']/td[' + c + ']/span[' + p + ']').text
+            if c == '7':
+                b = int(b)
+                b = b + 1
+                b = str(b)
+                c = '4'
+                p = '1'
+            elif vrbl in nmbrs:
+                kursus_sum = kursus_sum + 1
+                p = int(p)
+                p = p + 1
+                p = str(p)
+            elif len(vrbl) == 2:
+                kursus_sum = kursus_sum + 2
+                p = int(p)
+                p = p + 1
+                p = str(p)
+            else:
+                p = int(p)
+                p = p + 1
+                p = str(p)
         except NoSuchElementException:
-            c = c + 1
-        if vrbl in nmbrs:
-            kursus_sum = kursus_sum + int(vrbl)
-        else:
-            p = p + 1
+            if c == '7':
+                b = int(b)
+                b = b + 1
+                b = str(b)
+                c = '4'
+                p = '1'
+                try:
+                    vrbl = driver.find_element_by_xpath('/html/body/div/div[4]/div[1]/div[1]/div[1]/div[2]/div[2]/table/tbody/tr[' + b + ']/td[' + c + ']/span[' + p + ']').text
+                except NoSuchElementException:
+                    g = False
+            else:
+                c = int(c)
+                c = c + 1
+                c = str(c)
+                p = '1'
+        """
+        with open("debug.txt", "a+") as file_object:
+            # Move read cursor to the start of file.
+            file_object.seek(0)
+            # If file is not empty then append '\n'
+            data = file_object.read(100)
+            if len(data) > 0 :
+                file_object.write("\n")
+            # Append text at the end of file
+            file_object.write('hinne '+vrbl+' || '+'tr '+b+' || '+'td '+c+' || '+'span '+p+' || '+'Kursuse_num '+str(kursus_sum))
+        """
+
+        print(vrbl)
+        print(' ')
+        print('tr ' + b)
+        print('td ' + c)
+        print('span ' + p)
+        print('Kursuste arv ' + str(kursus_sum))
+    print ('SUL ON ' + str(kursus_sum) + ' KURSUST')
+    input('VAJUTA ENTER ET MINNA TAGASI...')
+    peaaken()
 
 
 
