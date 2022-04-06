@@ -104,8 +104,12 @@ def hmwrk():
     v = '1'
     d = '1'
     os.system('clear')
-    z = True
-    while z == True:
+    tst = d
+
+    content_test = driver.find_element_by_xpath('/html/body/div/div[4]/div[1]/div[1]/div[1]/div[2]/div[1]/div[3]/div[1]/div[2]/div['+ d +']')
+    val = content_test.get_attribute("data-date")
+
+    while True:
         try:
             date_hmwrk = driver.find_element_by_xpath('/html/body/div/div[4]/div[1]/div[1]/div[1]/div[2]/div[1]/div[3]/div[1]/div[2]/h4['+ v +']').text
             print(' ')
@@ -115,33 +119,50 @@ def hmwrk():
             v = v + 1
             v = str(v)
         except NoSuchElementException:
-            try:
-                v = int(v)
-                v = v + 1
-                v = str(v)
-                date_hmwrk = driver.find_element_by_xpath('/html/body/div/div[4]/div[1]/div[1]/div[1]/div[2]/div[1]/div[3]/div[1]/div[2]/h4['+ v +']').text
-                print(' ')
-                print(date_hmwrk)
-                print(' ')
-            except NoSuchElementException:
-                z = False
-
-
+            return False
+        
         try:
-            content_hmwrk = driver.find_element_by_xpath('/html/body/div/div[4]/div[1]/div[1]/div[1]/div[2]/div[1]/div[3]/div[1]/div[2]/div['+ d +']/div').text
-            print(content_hmwrk)
-            d = int(d)
-            d = d + 1
-            d = str(d)
+            content_test = driver.find_element_by_xpath('/html/body/div/div[4]/div[1]/div[1]/div[1]/div[2]/div[1]/div[3]/div[1]/div[2]/div['+ tst +']')
+            val = content_test.get_attribute("data-date")
+            content_test1 = driver.find_element_by_xpath('/html/body/div/div[4]/div[1]/div[1]/div[1]/div[2]/div[1]/div[3]/div[1]/div[2]/div['+ str(int(tst)+1) +']')
+            val2 = content_test1.get_attribute("data-date")
+            tst = int(tst)
+            tst = tst + 1
+            tst = str(tst)
+            ac = 1
+            while val == val2:
+                try:
+                    ac = ac + 1
+                    content_test = driver.find_element_by_xpath('/html/body/div/div[4]/div[1]/div[1]/div[1]/div[2]/div[1]/div[3]/div[1]/div[2]/div['+ tst +']')
+                    val = content_test.get_attribute("data-date")
+                    content_test1 = driver.find_element_by_xpath('/html/body/div/div[4]/div[1]/div[1]/div[1]/div[2]/div[1]/div[3]/div[1]/div[2]/div['+ str(int(tst)+1) +']')
+                    val2 = content_test1.get_attribute("data-date")
+                    tst = int(tst)
+                    tst = tst + 1
+                    tst = str(tst)
+                except NoSuchElementException:
+                    return False
+                    z = False
+                    break
+            
+            print('debug')
+            for i in range(ac):
+                try:
+                    content_hmwrk = driver.find_element_by_xpath('/html/body/div/div[4]/div[1]/div[1]/div[1]/div[2]/div[1]/div[3]/div[1]/div[2]/div['+ d +']/div').text
+                    print(' ')
+                    print(content_hmwrk)
+                    print(' ')
+                    d = int(d)
+                    d = d + 1
+                    d = str(d)
+                except NoSuchElementException:
+                    break
+                    return False
         except NoSuchElementException:
-            try:
-                d = int(d)
-                d = d + 1
-                d = str(d)
-                content_hmwrk = driver.find_element_by_xpath('/html/body/div/div[4]/div[1]/div[1]/div[1]/div[2]/div[1]/div[3]/div[1]/div[2]/div['+ d +']/div').text
-                print(content_hmwrk)
-            except NoSuchElementException:
-                z = False
+            return False
+
+    input('VAJUTA ENTER ET JÄTKATA')
+    
 
 
     print(' ')
@@ -149,7 +170,7 @@ def hmwrk():
     print(' ')
     print('VALI TEGEVUS')
     print(' ')
-    input('VAJUTA ENTER ET TAGSI MINNA...')
+    input('VAJUTA ENTER ET TAGASI MINNA...')
     peaaken()
 
     
@@ -209,25 +230,7 @@ def kursus_cnt():
                 c = c + 1
                 c = str(c)
                 p = '1'
-        """
-        with open("debug.txt", "a+") as file_object:
-            # Move read cursor to the start of file.
-            file_object.seek(0)
-            # If file is not empty then append '\n'
-            data = file_object.read(100)
-            if len(data) > 0 :
-                file_object.write("\n")
-            # Append text at the end of file
-            file_object.write('hinne '+vrbl+' || '+'tr '+b+' || '+'td '+c+' || '+'span '+p+' || '+'Kursuse_num '+str(kursus_sum))
-        """
-        """
-        print(vrbl)
-        print(' ')
-        print('tr ' + b)
-        print('td ' + c)
-        print('span ' + p)
-        print('Kursuste arv ' + str(kursus_sum))
-        """
+
     print ('SUL ON ' + str(kursus_sum) + ' KURSUST')
     print(' ')
     input('VAJUTA ENTER ET MINNA TAGASI...')
@@ -287,10 +290,7 @@ def disp_msg():
             num = str(num)
         except NoSuchElementException:
             msg_disp = msg_disp + 1
-            print('Järjekord')
-            print(msg_disp)
-            print('Div num')
-            print(num)
+
             try:
                 sndr = driver.find_element_by_xpath('/html/body/div/div[4]/div[2]/div[3]/div[' + num + ']/div[2]/div[1]/div[1]/h4').text
                 date = driver.find_element_by_xpath('/html/body/div/div[4]/div[2]/div[3]/div[' + num + ']/div[2]/div[1]/div[1]/span').text
@@ -311,11 +311,6 @@ def disp_msg():
                 num = int(num)
                 num = num + 1
                 num = str(num)
-                print('Järjekord')
-                print(msg_disp)
-                print('Div num')
-                print(num)
-
             
 
     print(' ')
