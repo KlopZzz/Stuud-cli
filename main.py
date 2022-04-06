@@ -50,7 +50,7 @@ def sisselogimine():
     sleep(2)
     
     try:
-         valeprl = driver.find_element_by_xpath("//p[@class='status-message error']").text
+         valeprl = driver.find_element(By.XPATH, "//p[@class='status-message error']").text
     except NoSuchElementException:
         chk1 = True
 
@@ -106,12 +106,12 @@ def hmwrk():
     os.system('clear')
     tst = d
 
-    content_test = driver.find_element_by_xpath('/html/body/div/div[4]/div[1]/div[1]/div[1]/div[2]/div[1]/div[3]/div[1]/div[2]/div['+ d +']')
+    content_test = driver.find_element(By.XPATH, '/html/body/div/div[4]/div[1]/div[1]/div[1]/div[2]/div[1]/div[3]/div[1]/div[2]/div['+ d +']')
     val = content_test.get_attribute("data-date")
 
     while True:
         try:
-            date_hmwrk = driver.find_element_by_xpath('/html/body/div/div[4]/div[1]/div[1]/div[1]/div[2]/div[1]/div[3]/div[1]/div[2]/h4['+ v +']').text
+            date_hmwrk = driver.find_element(By.XPATH, '/html/body/div/div[4]/div[1]/div[1]/div[1]/div[2]/div[1]/div[3]/div[1]/div[2]/h4['+ v +']').text
             print(' ')
             print(date_hmwrk)
             print(' ')
@@ -122,9 +122,9 @@ def hmwrk():
             return False
         
         try:
-            content_test = driver.find_element_by_xpath('/html/body/div/div[4]/div[1]/div[1]/div[1]/div[2]/div[1]/div[3]/div[1]/div[2]/div['+ tst +']')
+            content_test = driver.find_element(By.XPATH, '/html/body/div/div[4]/div[1]/div[1]/div[1]/div[2]/div[1]/div[3]/div[1]/div[2]/div['+ tst +']')
             val = content_test.get_attribute("data-date")
-            content_test1 = driver.find_element_by_xpath('/html/body/div/div[4]/div[1]/div[1]/div[1]/div[2]/div[1]/div[3]/div[1]/div[2]/div['+ str(int(tst)+1) +']')
+            content_test1 = driver.find_element(By.XPATH, '/html/body/div/div[4]/div[1]/div[1]/div[1]/div[2]/div[1]/div[3]/div[1]/div[2]/div['+ str(int(tst)+1) +']')
             val2 = content_test1.get_attribute("data-date")
             tst = int(tst)
             tst = tst + 1
@@ -133,9 +133,9 @@ def hmwrk():
             while val == val2:
                 try:
                     ac = ac + 1
-                    content_test = driver.find_element_by_xpath('/html/body/div/div[4]/div[1]/div[1]/div[1]/div[2]/div[1]/div[3]/div[1]/div[2]/div['+ tst +']')
+                    content_test = driver.find_element(By.XPATH, '/html/body/div/div[4]/div[1]/div[1]/div[1]/div[2]/div[1]/div[3]/div[1]/div[2]/div['+ tst +']')
                     val = content_test.get_attribute("data-date")
-                    content_test1 = driver.find_element_by_xpath('/html/body/div/div[4]/div[1]/div[1]/div[1]/div[2]/div[1]/div[3]/div[1]/div[2]/div['+ str(int(tst)+1) +']')
+                    content_test1 = driver.find_element(By.XPATH, '/html/body/div/div[4]/div[1]/div[1]/div[1]/div[2]/div[1]/div[3]/div[1]/div[2]/div['+ str(int(tst)+1) +']')
                     val2 = content_test1.get_attribute("data-date")
                     tst = int(tst)
                     tst = tst + 1
@@ -148,7 +148,7 @@ def hmwrk():
             print('debug')
             for i in range(ac):
                 try:
-                    content_hmwrk = driver.find_element_by_xpath('/html/body/div/div[4]/div[1]/div[1]/div[1]/div[2]/div[1]/div[3]/div[1]/div[2]/div['+ d +']/div').text
+                    content_hmwrk = driver.find_element(By.XPATH, '/html/body/div/div[4]/div[1]/div[1]/div[1]/div[2]/div[1]/div[3]/div[1]/div[2]/div['+ d +']/div').text
                     print(' ')
                     print(content_hmwrk)
                     print(' ')
@@ -160,8 +160,6 @@ def hmwrk():
                     return False
         except NoSuchElementException:
             return False
-
-    input('VAJUTA ENTER ET JÄTKATA')
     
 
 
@@ -193,7 +191,7 @@ def kursus_cnt():
         if g == False:
             break
         try:
-            vrbl = driver.find_element_by_xpath('/html/body/div/div[4]/div[1]/div[1]/div[1]/div[2]/div[2]/table/tbody/tr[' + b + ']/td[' + c + ']/span[' + p + ']').text
+            vrbl = driver.find_element(By.XPATH, '/html/body/div/div[4]/div[1]/div[1]/div[1]/div[2]/div[2]/table/tbody/tr[' + b + ']/td[' + c + ']/span[' + p + ']').text
             if c == '7':
                 b = int(b)
                 b = b + 1
@@ -222,7 +220,7 @@ def kursus_cnt():
                 c = '4'
                 p = '1'
                 try:
-                    vrbl = driver.find_element_by_xpath('/html/body/div/div[4]/div[1]/div[1]/div[1]/div[2]/div[2]/table/tbody/tr[' + b + ']/td[' + c + ']/span[' + p + ']').text
+                    vrbl = driver.find_element(By.XPATH, '/html/body/div/div[4]/div[1]/div[1]/div[1]/div[2]/div[2]/table/tbody/tr[' + b + ']/td[' + c + ']/span[' + p + ']').text
                 except NoSuchElementException:
                     g = False
             else:
@@ -272,10 +270,10 @@ def disp_msg():
     sleep(2)
     for i in range(msg_disp):
         try:
-            sndr = driver.find_element_by_xpath('/html/body/div/div[4]/div[2]/div[3]/div[' + num + ']/div[2]/div[1]/div[1]/h4').text
-            date = driver.find_element_by_xpath('/html/body/div/div[4]/div[2]/div[3]/div[' + num + ']/div[2]/div[1]/div[1]/span').text
-            title = driver.find_element_by_xpath('/html/body/div/div[4]/div[2]/div[3]/div[' + num + ']/div[2]/div[1]/div[1]/h3').text
-            content = driver.find_element_by_xpath('/html/body/div/div[4]/div[2]/div[3]/div[' + num + ']/div[2]/div[2]/div[2]').text
+            sndr = driver.find_element(By.XPATH, '/html/body/div/div[4]/div[2]/div[3]/div[' + num + ']/div[2]/div[1]/div[1]/h4').text
+            date = driver.find_element(By.XPATH,'/html/body/div/div[4]/div[2]/div[3]/div[' + num + ']/div[2]/div[1]/div[1]/span').text
+            title = driver.find_element(By.XPATH,'/html/body/div/div[4]/div[2]/div[3]/div[' + num + ']/div[2]/div[1]/div[1]/h3').text
+            content = driver.find_element(By.XPATH,'/html/body/div/div[4]/div[2]/div[3]/div[' + num + ']/div[2]/div[2]/div[2]').text
             print(' ')
             print('SAATJA: ' + sndr)
             print('KUUPÄEV: ' + date)
@@ -292,11 +290,11 @@ def disp_msg():
             msg_disp = msg_disp + 1
 
             try:
-                sndr = driver.find_element_by_xpath('/html/body/div/div[4]/div[2]/div[3]/div[' + num + ']/div[2]/div[1]/div[1]/h4').text
-                date = driver.find_element_by_xpath('/html/body/div/div[4]/div[2]/div[3]/div[' + num + ']/div[2]/div[1]/div[1]/span').text
-                title = driver.find_element_by_xpath('/html/body/div/div[4]/div[2]/div[3]/div[' + num + ']/div[2]/div[1]/div[1]/h3').text
-                event_date = driver.find_element_by_xpath('/html/body/div/div[4]/div[2]/div[3]/div[' + num + ']/div[2]/div[2]/div[2]/span').text
-                content = driver.find_element_by_xpath('/html/body/div/div[4]/div[2]/div[3]/div[' + num + ']/div[2]/div[2]/div[3]').text
+                sndr = driver.find_element(By.XPATH,'/html/body/div/div[4]/div[2]/div[3]/div[' + num + ']/div[2]/div[1]/div[1]/h4').text
+                date = driver.find_element(By.XPATH,'/html/body/div/div[4]/div[2]/div[3]/div[' + num + ']/div[2]/div[1]/div[1]/span').text
+                title = driver.find_element(By.XPATH,'/html/body/div/div[4]/div[2]/div[3]/div[' + num + ']/div[2]/div[1]/div[1]/h3').text
+                event_date = driver.find_element(By.XPATH,'/html/body/div/div[4]/div[2]/div[3]/div[' + num + ']/div[2]/div[2]/div[2]/span').text
+                content = driver.find_element(By.XPATH,'/html/body/div/div[4]/div[2]/div[3]/div[' + num + ']/div[2]/div[2]/div[3]').text
                 print(' ')
                 print('SAATJA: ' + sndr)
                 print('KUUPÄEV: ' + date)
@@ -355,11 +353,11 @@ def suhtlus_settings():
 
 
 def v2ljalogi():
-    logout_hover = driver.find_element_by_xpath('/html/body/div[1]/div[1]/div/span[2]/img')
+    logout_hover = driver.find_element(By.XPATH,'/html/body/div[1]/div[1]/div/span[2]/img')
     hover = ActionChains(driver).move_to_element(logout_hover)
     hover.perform()
     sleep(1)
-    nupp2 = driver.find_element_by_xpath('/html/body/div[1]/div[1]/div/span[2]/span/a[3]')
+    nupp2 = driver.find_element(By.XPATH,'/html/body/div[1]/div[1]/div/span[2]/span/a[3]')
     nupp2.click()
     sleep(1)
     if driver.current_url == 'https://elva.ope.ee/auth/':
