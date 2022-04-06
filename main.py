@@ -106,9 +106,6 @@ def hmwrk():
     os.system('clear')
     tst = d
 
-    content_test = driver.find_element(By.XPATH, '/html/body/div/div[4]/div[1]/div[1]/div[1]/div[2]/div[1]/div[3]/div[1]/div[2]/div['+ d +']')
-    val = content_test.get_attribute("data-date")
-
     while True:
         try:
             date_hmwrk = driver.find_element(By.XPATH, '/html/body/div/div[4]/div[1]/div[1]/div[1]/div[2]/div[1]/div[3]/div[1]/div[2]/h4['+ v +']').text
@@ -119,7 +116,7 @@ def hmwrk():
             v = v + 1
             v = str(v)
         except NoSuchElementException:
-            return False
+            break
         
         try:
             content_test = driver.find_element(By.XPATH, '/html/body/div/div[4]/div[1]/div[1]/div[1]/div[2]/div[1]/div[3]/div[1]/div[2]/div['+ tst +']')
@@ -141,11 +138,8 @@ def hmwrk():
                     tst = tst + 1
                     tst = str(tst)
                 except NoSuchElementException:
-                    return False
-                    z = False
                     break
             
-            print('debug')
             for i in range(ac):
                 try:
                     content_hmwrk = driver.find_element(By.XPATH, '/html/body/div/div[4]/div[1]/div[1]/div[1]/div[2]/div[1]/div[3]/div[1]/div[2]/div['+ d +']/div').text
@@ -157,12 +151,9 @@ def hmwrk():
                     d = str(d)
                 except NoSuchElementException:
                     break
-                    return False
         except NoSuchElementException:
-            return False
+            break
     
-
-
     print(' ')
     print('PEALEHT >> KODUTÖÖ')
     print(' ')
