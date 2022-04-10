@@ -11,33 +11,48 @@ import os
 import requests
 import getpass
 import selenium
+import sys
+import json
 
 global ver1
 msg_disp = 6
-ver1 = 'v1.0.0'
+ver1 = 'v0.0.1'
+
+with open('config.json', 'r') as f:
+    config = json.load(f)
+global chromium_set
+global chromedriver_set
+global school_var
+    #edit the data
+chromium_set = config['chromium_set']
+chromedriver_set = config['chromedriver_set']
+school_var = config['school_var']
+
+#write it back to the file
+with open('config.json', 'w') as f:
+    json.dump(config, f)
 
 def sisselogimine():
 
     os.system('clear')
-    print('SISSELOGIMINE')
-    print(" ")
+    print('SISSELOGIMINE\n')
     usrnme = input('Sisesta Kasutajatunnus: ')
     paswrd = getpass.getpass('Sisesta Parool: ')
 
 
-    url = 'https://elva.ope.ee/auth/'
+    url = school_var
     options = Options()
     #options.add_argument("--headless")
     options.add_argument("--no-sandbox")
     options.add_argument("window-size=1200,1100")
-    options.binary_location = "/usr/bin/chromium"
+    options.binary_location = chromium_set
 
     global chk1
     chk1 = False
     global driver
     driver = webdriver.Chrome(
         chrome_options=options,
-        executable_path='/usr/bin/chromedriver',
+        executable_path=chromedriver_set,
     )
     driver.maximize_window()
     driver.get(url)
@@ -68,14 +83,11 @@ def sisselogimine():
 def peaaken():
     driver.get('https://elva.ope.ee/auth/')
     os.system('clear')
-    print('TE OLETE EDUKALT SISSE LOGITUD')
-    print(' ')
-    print('VALI TEGEVUS')
-    print(' ')
+    print('TE OLETE EDUKALT SISSE LOGITUD\n')
+    print('VALI TEGEVUS\n')
     print('[1] Kursuste arv')
     print('[2] Suhtlus')
-    print('[3] Kodutöö')
-    print(' ')
+    print('[3] Kodutöö\n')
     crnt_url = driver.current_url
     j = 22
     global stdnt_id
@@ -154,11 +166,9 @@ def hmwrk():
         except NoSuchElementException:
             break
     
-    print(' ')
-    print('PEALEHT >> KODUTÖÖ')
-    print(' ')
-    print('VALI TEGEVUS')
-    print(' ')
+    print()
+    print('PEALEHT >> KODUTÖÖ\n')
+    print('VALI TEGEVUS\n')
     input('VAJUTA ENTER ET TAGASI MINNA...')
     peaaken()
 
@@ -166,8 +176,7 @@ def hmwrk():
 
 def kursus_cnt():
     os.system('clear')
-    print('KURSUSTE LOENDUS GÜMNAASIUMILE')
-    print(' ')
+    print('KURSUSTE LOENDUS GÜMNAASIUMILE\n')
     driver.get('https://elva.ope.ee/users/summary/'+stdnt_id)
     sleep(1)
     nmbrs = ['1', '2', '3', '4', '5', 'A']
@@ -231,8 +240,7 @@ def kursus_cnt():
 def suhtlus():
     os.system('clear')
     print('PEALEHT >> SUHTLUS')
-    print('VALI TEGEVUS')
-    print(' ')
+    print('VALI TEGEVUS\n')
     print('[1] Otsi sõnumit')
     print('[2] Saada sõnum')
     print('[3] Muuda sätteid')
@@ -266,14 +274,11 @@ def disp_msg():
             title = driver.find_element(By.XPATH,'/html/body/div/div[4]/div[2]/div[3]/div[' + num + ']/div[2]/div[1]/div[1]/h3').text
             content = driver.find_element(By.XPATH,'/html/body/div/div[4]/div[2]/div[3]/div[' + num + ']/div[2]/div[2]/div[2]').text
             print(' ')
-            print('SAATJA: ' + sndr)
-            print('KUUPÄEV: ' + date)
-            print(' ')
-            print('PEALKIRI: ' + title)
-            print(' ')
+            print('SAATJA: ' + sndr + "\n")
+            print('KUUPÄEV: ' + date + "\n")
+            print('PEALKIRI: ' + title + "\n")
             print(content)
-            print(' ')
-            print(' ')
+            print('\n')
             num = int(num)
             num = num + 1
             num = str(num)
@@ -303,7 +308,7 @@ def disp_msg():
             
 
     print(' ')
-    input('VAJUTA ENTER, ET TAGASI MINNA TAGASI...')
+    input('VAJUTA ENTER, ET MINNA TAGASI...')
     suhtlus()
 
 def suhtlus_settings():
@@ -357,26 +362,104 @@ def v2ljalogi():
         main()
         sleep(1)
 
+def helpcli():
+    print("""
+
+    Stuudium-CLI käsurea argumendid
+
+    python main.py arg1 arg2
 
 
+    --abi --help / python main.py --abi / Toob esile praeguse akna
+
+    --cli / python main.py --cli / Käivitab Stuudiumi-CLI liidese
+    
+    """)
+
+def glob_settings():
+    
+
+    print("Globaalsed sätted\n")
+    print("[1] Chromedriver asukoht - Hetke seadistus: " + chromedriver_set)
+    print("[2] Chromium asukoht - Hetke seadistus: " + chromium_set)
+    print("[3] Kooli Stuudiumi veebilehe aadress - Hetke seadistus: " + school_var)
+    print('[4] Tagasi\n')
+
+    opt1 = input('Sisesta: ')
+    print()
+    if opt1 == '1':
+
+        opt2 = input('Sisesta sobiv Chromedriver asukoht: ')
+        if opt2 == "0":
+            glob_settings()
+
+        config = {"school_var": school_var, "chromium_set": chromium_set, "chromedriver_set": opt2}
+
+        with open('config.json', 'w') as f:
+            json.dump(config, f)
+        glob_settings()
+
+    elif opt1 == '2':
+        opt2 = input('Sisesta sobiv Chromium asukoht: ')
+        if opt2 == "0":
+            glob_settings()
+
+        config = {"school_var": school_var, "chromium_set": opt2, "chromedriver_set": chromedriver_set}
+
+        with open('config.json', 'w') as f:
+            json.dump(config, f)
+        
+        glob_settings()
+    elif opt1 == '3':
+        opt2 = input('Sisesta sobiv kooli Stuudiumi veebilehe aadress: ')
+        if opt2 == "0":
+            glob_settings()
+
+        config = {"school_var": opt2, "chromium_set": chromium_set, "chromedriver_set": chromedriver_set}
+
+        with open('config.json', 'w') as f:
+            json.dump(config, f)
+        glob_settings()
+
+    elif opt1 == '4':
+        main()
 
 def main():
-    print('Stuudium-cli ' + ver1)
-    print(' ')
-    print('Vali tegevus:')
-    print(' ')
+    os.system('clear')
+    print('Stuudium-cli ' + ver1 + "\n")
+    print('Vali tegevus:\n')
     print('[1] Logi sisse')
-    print('[2] Välju')
-    print(' ')
+    print('[2] CLI abi')
+    print('[3] Seadistus\n')
+    print('[4] Välju\n')
+
     sel1 = input('Sisesta: ')
-    if sel1 == '2':
+
+    if sel1 == '4':
         exit()
     elif sel1 == '1':
         os.system('clear')
         sisselogimine()
+    elif sel1 == '2':
+        helpcli()
+    elif sel1 == '3':
+        glob_settings()
     else:
         os.system('clear')
         input('ANTUD NUMBER POLE VALIKUS....PROOVI UUESTI')
         main()
-main()
+
+try:
+    if str(sys.argv[1]) == '--help' or str(sys.argv[1]) == '--abi':
+        helpcli()
+    elif str(sys.argv[1]) == '--cli':
+        main()
+    elif len(sys.argv) == 1:
+        helpcli()
+    else:
+        print("Antud argumendid ei kehti!")
+    exit()
+except IndexError:
+    helpcli()
+    exit()
 
