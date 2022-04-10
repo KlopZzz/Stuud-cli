@@ -5,19 +5,19 @@ Stuud-cli on Pythonis kirjutatud terminali aplikatsioon, mis loob ühenduse Stuu
 
 1. Esmalt peab laadima chromedriveri ja chromium ühilduva versiooniga
 2. Teisalt tuleb installeerida vajalikud andmekogud
-´´´
+´´´sh
 pip install -r requirements.txt
 ´´´
 3. Programmi kasutus abi leiab käsuga
-´´´
+´´´sh
 python main.py
 ´´´
 VÕI
-´´´
+´´´sh
 python main.py --abi
 ´´´
 4. CLI liidese saab käivitada käsuga
-´´´
+´´´sh
 python main.py --cli
 ´´´
 ## Töötavad funktsioonid
