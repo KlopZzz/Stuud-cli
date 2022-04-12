@@ -13,8 +13,12 @@ import getpass
 import selenium
 import sys
 import json
+import statistics
+import graphs as gr
 
 global ver1
+global avrg
+
 msg_disp = 6
 ver1 = 'v0.0.1'
 
@@ -23,7 +27,7 @@ with open('config.json', 'r') as f:
 global chromium_set
 global chromedriver_set
 global school_var
-    #edit the data
+#edit the data
 chromium_set = config['chromium_set']
 chromedriver_set = config['chromedriver_set']
 school_var = config['school_var']
@@ -81,13 +85,16 @@ def sisselogimine():
 
 
 def peaaken():
+
     driver.get('https://elva.ope.ee/auth/')
     os.system('clear')
     print('TE OLETE EDUKALT SISSE LOGITUD\n')
     print('VALI TEGEVUS\n')
     print('[1] Kursuste arv')
     print('[2] Suhtlus')
-    print('[3] Kodutöö\n')
+    print('[3] Kodutöö')
+    #print('[4] Õpilase tulemuste graafikud')
+    print('[5] Välju\n')
     crnt_url = driver.current_url
     j = 22
     global stdnt_id
@@ -111,6 +118,18 @@ def peaaken():
         suhtlus()
     elif sel2 == '3':
         hmwrk()
+    elif sel2 == '5':
+        exit()
+"""
+def graphs_i():
+
+    os.system('clear')
+    print('GRAAFIKUD\n')
+    print('VALI TEGEVUS\n')
+    print('[1] Kursuste arv')
+
+    exit()
+"""
 
 def hmwrk():
     v = '1'
@@ -177,62 +196,160 @@ def hmwrk():
 def kursus_cnt():
     os.system('clear')
     print('KURSUSTE LOENDUS GÜMNAASIUMILE\n')
-    driver.get('https://elva.ope.ee/users/summary/'+stdnt_id)
-    sleep(1)
-    nmbrs = ['1', '2', '3', '4', '5', 'A']
-    c = '4'
-    global p
-    p = '1'
-    global b
-    b = '1'
-    kursus_sum = 0
-    g = True
-    while g == True:
-        if g == False:
-            break
-        try:
-            vrbl = driver.find_element(By.XPATH, '/html/body/div/div[4]/div[1]/div[1]/div[1]/div[2]/div[2]/table/tbody/tr[' + b + ']/td[' + c + ']/span[' + p + ']').text
-            if c == '7':
-                b = int(b)
-                b = b + 1
-                b = str(b)
-                c = '4'
-                p = '1'
-            elif vrbl in nmbrs:
-                kursus_sum = kursus_sum + 1
-                p = int(p)
-                p = p + 1
-                p = str(p)
-            elif len(vrbl) == 2:
-                kursus_sum = kursus_sum + 2
-                p = int(p)
-                p = p + 1
-                p = str(p)
-            else:
-                p = int(p)
-                p = p + 1
-                p = str(p)
-        except NoSuchElementException:
-            if c == '7':
-                b = int(b)
-                b = b + 1
-                b = str(b)
-                c = '4'
-                p = '1'
+
+    with open('grading.json', 'r') as f:
+        config = json.load(f)
+
+    #edit the data
+    cours_sum = config['course_sum']
+    average_grade = config['average_grade']
+
+    #write it back to the file
+    with open('grading.json', 'w') as f:
+        json.dump(config, f)
+
+    if cours_sum != 0 and average_grade != 0:
+        print("Sul on " + str(cours_sum) + " kursust!")
+        print("Su üldine keskmine hinne on " + str(average_grade))
+        print()
+        val = input("Kas sa soovid alustada kursuse loendust uuesti? [y/n]: ")
+        if val == 'y':
+
+            driver.get('https://elva.ope.ee/users/summary/'+stdnt_id)
+            sleep(1)
+
+            avrg = []
+            nmbrs = ['1', '2', '3', '4', '5', 'A']
+            c = '4'
+            p = '1'
+            b = '1'
+            kursus_sum = 0
+            z = 0
+            g = True
+
+            while g == True:
+                if g == False:
+                    break
                 try:
                     vrbl = driver.find_element(By.XPATH, '/html/body/div/div[4]/div[1]/div[1]/div[1]/div[2]/div[2]/table/tbody/tr[' + b + ']/td[' + c + ']/span[' + p + ']').text
+                    if c == '7':
+                        b = int(b)
+                        b = b + 1
+                        b = str(b)
+                        c = '4'
+                        p = '1'
+                    elif vrbl in nmbrs:
+                        try:
+                            z = int(vrbl)
+                            avrg.append(z)
+                        except ValueError:
+                            pass
+                        kursus_sum = kursus_sum + 1
+                        p = int(p)
+                        p = p + 1
+                        p = str(p)
+                    elif len(vrbl) == 2:
+                        kursus_sum = kursus_sum + 2
+                        p = int(p)
+                        p = p + 1
+                        p = str(p)
+                    else:
+                        p = int(p)
+                        p = p + 1
+                        p = str(p)
                 except NoSuchElementException:
-                    g = False
-            else:
-                c = int(c)
-                c = c + 1
-                c = str(c)
-                p = '1'
+                    if c == '7':
+                        b = int(b)
+                        b = b + 1
+                        b = str(b)
+                        c = '4'
+                        p = '1'
+                        try:
+                            vrbl = driver.find_element(By.XPATH, '/html/body/div/div[4]/div[1]/div[1]/div[1]/div[2]/div[2]/table/tbody/tr[' + b + ']/td[' + c + ']/span[' + p + ']').text
+                        except NoSuchElementException:
+                            g = False
+                    else:
+                        c = int(c)
+                        c = c + 1
+                        c = str(c)
+                        p = '1'
+            
+            config = {"average_grade": statistics.mean(avrg), "course_sum": kursus_sum}
+            with open('grading.json', 'w') as f:
+                json.dump(config, f)
+            kursus_cnt()
 
-    print ('SUL ON ' + str(kursus_sum) + ' KURSUST')
-    print(' ')
-    input('VAJUTA ENTER ET MINNA TAGASI...')
-    peaaken()
+        elif val == 'n':
+            peaaken()
+    if cours_sum == 0 and average_grade == 0:
+        driver.get('https://elva.ope.ee/users/summary/'+stdnt_id)
+        sleep(1)
+
+        avrg = []
+        nmbrs = ['1', '2', '3', '4', '5', 'A']
+        c = '4'
+        p = '1'
+        b = '1'
+        kursus_sum = 0
+        z = 0
+        g = True
+
+        while g == True:
+            if g == False:
+                break
+            try:
+                vrbl = driver.find_element(By.XPATH, '/html/body/div/div[4]/div[1]/div[1]/div[1]/div[2]/div[2]/table/tbody/tr[' + b + ']/td[' + c + ']/span[' + p + ']').text
+                if c == '7':
+                    b = int(b)
+                    b = b + 1
+                    b = str(b)
+                    c = '4'
+                    p = '1'
+                elif vrbl in nmbrs:
+                    try:
+                        z = int(vrbl)
+                        avrg.append(z)
+                    except ValueError:
+                        pass
+                    kursus_sum = kursus_sum + 1
+                    p = int(p)
+                    p = p + 1
+                    p = str(p)
+                elif len(vrbl) == 2:
+                    kursus_sum = kursus_sum + 2
+                    p = int(p)
+                    p = p + 1
+                    p = str(p)
+                else:
+                    p = int(p)
+                    p = p + 1
+                    p = str(p)
+            except NoSuchElementException:
+                if c == '7':
+                    b = int(b)
+                    b = b + 1
+                    b = str(b)
+                    c = '4'
+                    p = '1'
+                    try:
+                        vrbl = driver.find_element(By.XPATH, '/html/body/div/div[4]/div[1]/div[1]/div[1]/div[2]/div[2]/table/tbody/tr[' + b + ']/td[' + c + ']/span[' + p + ']').text
+                    except NoSuchElementException:
+                        g = False
+                else:
+                    c = int(c)
+                    c = c + 1
+                    c = str(c)
+                    p = '1'
+
+        config = {"average_grade": statistics.mean(avrg), "course_sum": kursus_sum}
+        with open('grading.json', 'w') as f:
+                json.dump(config, f)
+        
+        print ('SUL ON ' + str(kursus_sum) + ' KURSUST')
+        print ('Su üldine keskmine hinne on ' + str(statistics.mean(avrg)))
+        print(' ')
+        input('VAJUTA ENTER ET MINNA TAGASI...')
+        peaaken()
 
 
 
