@@ -20,25 +20,34 @@ global ver1
 global avrg
 
 msg_disp = 6
-ver1 = 'v0.0.1'
+ver1 = 'v0.1.1'
 
 with open('config.json', 'r') as f:
     config = json.load(f)
 global chromium_set
 global chromedriver_set
 global school_var
+global os_sel
+global os_clear
+
 #edit the data
 chromium_set = config['chromium_set']
 chromedriver_set = config['chromedriver_set']
 school_var = config['school_var']
+os_sel = config['os_sel']
 
 #write it back to the file
 with open('config.json', 'w') as f:
     json.dump(config, f)
 
+if os_sel = "Linux":
+    os_clear = "clear"
+elif os_sel = "Windows":
+    os_clear = "cls"
+
 def sisselogimine():
 
-    os.system('clear')
+    os.system(os_clear)
     print('SISSELOGIMINE\n')
     usrnme = input('Sisesta Kasutajatunnus: ')
     paswrd = getpass.getpass('Sisesta Parool: ')
@@ -500,7 +509,8 @@ def glob_settings():
     print("[1] Chromedriver asukoht - Hetke seadistus: " + chromedriver_set)
     print("[2] Chromium asukoht - Hetke seadistus: " + chromium_set)
     print("[3] Kooli Stuudiumi veebilehe aadress - Hetke seadistus: " + school_var)
-    print('[4] Tagasi\n')
+    print("[4] Operatsiooni süsteemi valimine - Hetke seadistus: " + os_sel)
+    print('[5] Tagasi\n')
 
     opt1 = input('Sisesta: ')
     print()
@@ -510,7 +520,7 @@ def glob_settings():
         if opt2 == "0":
             glob_settings()
 
-        config = {"school_var": school_var, "chromium_set": chromium_set, "chromedriver_set": opt2}
+        config = {"school_var": school_var, "chromium_set": chromium_set, "chromedriver_set": opt2, "os_sel": os_sel}
 
         with open('config.json', 'w') as f:
             json.dump(config, f)
@@ -521,7 +531,7 @@ def glob_settings():
         if opt2 == "0":
             glob_settings()
 
-        config = {"school_var": school_var, "chromium_set": opt2, "chromedriver_set": chromedriver_set}
+        config = {"school_var": school_var, "chromium_set": opt2, "chromedriver_set": chromedriver_set, "os_sel": os_sel}
 
         with open('config.json', 'w') as f:
             json.dump(config, f)
@@ -532,13 +542,32 @@ def glob_settings():
         if opt2 == "0":
             glob_settings()
 
-        config = {"school_var": opt2, "chromium_set": chromium_set, "chromedriver_set": chromedriver_set}
+        config = {"school_var": opt2, "chromium_set": chromium_set, "chromedriver_set": chromedriver_set, "os_sel": os_sel}
 
         with open('config.json', 'w') as f:
             json.dump(config, f)
         glob_settings()
 
     elif opt1 == '4':
+        os.system("clear")
+        print("[1] Linux")
+        print("[2] Windows")
+        print("[3] Tagasi")
+        opt2 = input('Vali operatsioonisüsteem: ')
+        if opt2 == "1":
+            sel_os = "Linux"
+        elif opt2 == "2":
+            sel_os = "Windows"
+        elif opt2 == "3":
+            glob_settings()
+
+        config = {"school_var": school_var, "chromium_set": chromium_set, "chromedriver_set": chromedriver_set, "os_sel": sel_os}
+
+        with open('config.json', 'w') as f:
+            json.dump(config, f)
+        glob_settings()
+
+    elif opt1 == '5':
         main()
 
 def main():
