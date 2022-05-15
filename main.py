@@ -14,7 +14,8 @@ import selenium
 import sys
 import json
 import statistics
-import graphs as gr
+import zipfile
+#import graphs as gr
 import platform
 
 global ver1
@@ -25,6 +26,8 @@ global school_var
 global os_sel
 global os_clear
 global stdnt_id
+global os_type
+global os_current_loc
 
 msg_disp = 6
 ver1 = 'v0.1.2'
@@ -44,8 +47,12 @@ with open('config.json', 'w') as f:
 
 if platform.system() == "Linux":
     os_clear = "clear"
+    os_current_loc = "pwd"
+    os_type = "Linux"
 elif platform.system() == "Windows":
     os_clear = "cls"
+    os_current_loc = "cd"
+    os_type = "Windows"
 
 def sisselogimine():
 
@@ -597,6 +604,83 @@ def os_selection():
         json.dump(config, f)
     glob_settings()
 
+def chrome_conf():
+
+    os.system(os_clear)
+    print("Alustan Chromedriver ja Chrome binary seadistust ...\n")
+
+    print("\nNB! Antud chromedriver ei või olla kõige uuem ning ühilduda chrome binary-ga ...\n")
+    sel1 = input("Kas soovid, et program laeks chromedriveri? [y/n]: ")
+
+    if sel1 == "y":
+
+        if os_type == "Windows":
+
+            driver_url = "https://chromedriver.storage.googleapis.com/101.0.4951.41/chromedriver_win32.zip"
+            response = requests.get(driver_url)
+
+            open("chromedriver_win32.zip", "wb").write(response.content)
+
+            print("Chromedriver laadimine on lõpetatud!")
+            print("Alustan arhiivi lahti pakimist...")
+
+            zip_file = "chromedriver_win32.zip"
+    
+            try:
+                with zipfile.ZipFile(zip_file) as z:
+                    z.extractall()
+                    print("Failid pakiti lahti")
+            except:
+                print("Invalid file")
+
+        elif os_type == "Linux":
+
+            driver_url = "https://chromedriver.storage.googleapis.com/101.0.4951.41/chromedriver_linux64.zip"
+            response = requests.get(driver_url)
+
+            open("chromedriver_linux64.zip", "wb").write(response.content)
+
+            print("Chromedriver laadimine on lõpetatud!")
+            print("Alustan arhiivi lahti pakimist...")
+
+            zip_file = "chromedriver_linux64.zip"
+    
+            try:
+                with zipfile.ZipFile(zip_file) as z:
+                    z.extractall()
+                    print("Failid pakiti lahti")
+            except:
+                print("Invalid file")
+
+        sel2 = input("Kas lisan laetud chromedriver asukoha config.json? [y/n]: ")
+
+        if sel2 == "y":
+
+            if os_type == "Windows":
+                
+                opt2 = os.system(os_current_loc) + "chromedriver.exe"
+
+            elif os_type == "Linux":
+                opt2 = os.system(os_current_loc) + "chromedriver"
+
+
+            config = {"school_var": school_var, "chromium_set": chromium_set, "chromedriver_set": opt2, "os_sel": os_sel}
+
+            with open('config.json', 'w') as f:
+                json.dump(config, f)
+
+            main()
+
+        elif sel2 == "n":
+            main()
+
+        input("Vajuta ENTER, et minna tagasi avamenüüsse!")
+
+        main()
+
+    elif sel1 == "n":
+        main()
+
 def main():
 
     os.system(os_clear)
@@ -605,12 +689,13 @@ def main():
     print('Vali tegevus:\n')
     print('[1] Logi sisse')
     print('[2] CLI abi')
-    print('[3] Seadistus\n')
-    print('[4] Välju\n')
+    print('[3] Seadistus')
+    print('[4] Chromedriver ja chromebinary seadistus')
+    print('[5] Välju\n')
 
     sel1 = input('Sisesta: ')
 
-    if sel1 == '4':
+    if sel1 == '5':
         exit()
     elif sel1 == '1':
         os.system(os_clear)
@@ -619,6 +704,9 @@ def main():
         helpcli()
     elif sel1 == '3':
         glob_settings()
+    elif sel1 == '4':
+        chrome_conf()
+
     else:
         os.system(os_clear)
         input('ANTUD NUMBER POLE VALIKUS....PROOVI UUESTI')
