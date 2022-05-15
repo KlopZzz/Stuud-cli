@@ -58,14 +58,25 @@ log_i = config['logging_mode']
 with open('debug.json', 'w') as f:
     json.dump(config, f)
 
+if log_i == "True":
+    logging.basicConfig(filename='debug.log', encoding='utf-8', level=logging.DEBUG)
+
+
 if platform.system() == "Linux":
     os_clear = "clear"
     os_current_loc = "pwd"
     os_type = "Linux"
+
 elif platform.system() == "Windows":
     os_clear = "cls"
     os_current_loc = "cd"
     os_type = "Windows"
+
+logging.info('System configuration - os_clear > ' + os_clear)
+logging.info('System configuration - os_current_loc > ' + os_current_loc)
+logging.info('System configuration - os_type > ' + os_type)
+
+
 
 def sisselogimine():
 
@@ -79,6 +90,7 @@ def sisselogimine():
     options = Options()
     if debug_a == "False":
         options.add_argument("--headless")
+        logging.info('Login system - debug_a > ' + debug_a)
     options.add_argument("--no-sandbox")
     options.add_argument("window-size=1200,1100")
     options.binary_location = chromium_set
@@ -604,6 +616,8 @@ def glob_settings():
 
             with open('debug.json', 'w') as f:
                 json.dump(config, f)
+
+            logging.basicConfig(filename='debug.log', encoding='utf-8', level=logging.DEBUG)
 
         elif sel1 == "n":
 
