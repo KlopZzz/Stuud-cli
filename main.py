@@ -15,20 +15,21 @@ import sys
 import json
 import statistics
 import graphs as gr
+import platform
 
 global ver1
 global avrg
+global chromium_set
+global chromedriver_set
+global school_var
+global os_sel
+global os_clear
 
 msg_disp = 6
 ver1 = 'v0.1.1'
 
 with open('config.json', 'r') as f:
     config = json.load(f)
-global chromium_set
-global chromedriver_set
-global school_var
-global os_sel
-global os_clear
 
 #edit the data
 chromium_set = config['chromium_set']
@@ -40,9 +41,9 @@ os_sel = config['os_sel']
 with open('config.json', 'w') as f:
     json.dump(config, f)
 
-if os_sel = "Linux":
+if platform.system() == "Linux":
     os_clear = "clear"
-elif os_sel = "Windows":
+elif platform.system() == "Windows":
     os_clear = "cls"
 
 def sisselogimine():
@@ -221,7 +222,7 @@ def kursus_cnt():
         print("Sul on " + str(cours_sum) + " kursust!")
         print("Su üldine keskmine hinne on " + str(average_grade))
         print()
-        val = input("Kas sa soovid alustada kursuse loendust uuesti? [y/n]: ")
+        val = input("Kas sa soovid alustada kursuste loendust uuesti? [y/n]: ")
         if val == 'y':
 
             driver.get('https://elva.ope.ee/users/summary/'+stdnt_id)
@@ -571,7 +572,7 @@ def glob_settings():
         main()
 
 def main():
-    os.system('clear')
+    os.system(os_clear)
     print('Stuudium-cli ' + ver1 + "\n")
     print('Vali tegevus:\n')
     print('[1] Logi sisse')
