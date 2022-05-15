@@ -78,3 +78,6 @@ python main.py --cli
 * Chrome webdriver
 * Requests
 * lxml
+
+## Disclaimer
+NB! Kasutades seda programmi langeb kogu vastutus programmi kasutajale. Programmi looja ei vastuta tekkinud probleemide või kahju eest.

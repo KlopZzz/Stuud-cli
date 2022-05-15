@@ -24,9 +24,10 @@ global chromedriver_set
 global school_var
 global os_sel
 global os_clear
+global stdnt_id
 
 msg_disp = 6
-ver1 = 'v0.1.1'
+ver1 = 'v0.1.2'
 
 with open('config.json', 'r') as f:
     config = json.load(f)
@@ -107,7 +108,6 @@ def peaaken():
     print('[5] Välju\n')
     crnt_url = driver.current_url
     j = 22
-    global stdnt_id
     stdnt_id = ''
     s = False
     while s == False:
@@ -496,6 +496,7 @@ def helpcli():
 
     python main.py arg1 arg2
 
+    NB! Kasutades seda programmi langeb kogu vastutus programmi kasutajale. Programmi looja ei vastuta tekkinud probleemide või kahju eest.
 
     --abi --help / python main.py --abi / Toob esile praeguse akna
 
@@ -504,8 +505,21 @@ def helpcli():
     """)
 
 def glob_settings():
-    
 
+    with open('config.json', 'r') as f:
+        config = json.load(f)
+
+    #edit the data
+    chromium_set = config['chromium_set']
+    chromedriver_set = config['chromedriver_set']
+    school_var = config['school_var']
+    os_sel = config['os_sel']
+
+    #write it back to the file
+    with open('config.json', 'w') as f:
+        json.dump(config, f)
+    
+    os.system(os_clear)
     print("Globaalsed sätted\n")
     print("[1] Chromedriver asukoht - Hetke seadistus: " + chromedriver_set)
     print("[2] Chromium asukoht - Hetke seadistus: " + chromium_set)
@@ -548,32 +562,46 @@ def glob_settings():
         with open('config.json', 'w') as f:
             json.dump(config, f)
         glob_settings()
-
     elif opt1 == '4':
-        os.system("clear")
-        print("[1] Linux")
-        print("[2] Windows")
-        print("[3] Tagasi")
-        opt2 = input('Vali operatsioonisüsteem: ')
-        if opt2 == "1":
-            sel_os = "Linux"
-        elif opt2 == "2":
-            sel_os = "Windows"
-        elif opt2 == "3":
-            glob_settings()
-
-        config = {"school_var": school_var, "chromium_set": chromium_set, "chromedriver_set": chromedriver_set, "os_sel": sel_os}
-
-        with open('config.json', 'w') as f:
-            json.dump(config, f)
-        glob_settings()
-
+        os_selection()
     elif opt1 == '5':
         main()
+    else:
+        os.system(os_clear)
+        print("Antud number pole valikus! Proovi uuesti")
+        glob_settings()
+
+
+def os_selection():
+
+    print("[1] Linux")
+    print("[2] Windows")
+    print("[3] Tagasi")
+    opt2 = input('Vali operatsioonisüsteem: ')
+
+    if opt2 == "1":
+        sel_os = "Linux"
+    elif opt2 == "2":
+        sel_os = "Windows"
+    elif opt2 == "3":
+        glob_settings()
+    else:
+        os.system(os_clear)
+        print("Antud number pole valikus! Proovi uuesti")
+        os_selection()
+
+
+    config = {"school_var": school_var, "chromium_set": chromium_set, "chromedriver_set": chromedriver_set, "os_sel": sel_os}
+
+    with open('config.json', 'w') as f:
+        json.dump(config, f)
+    glob_settings()
 
 def main():
+
     os.system(os_clear)
     print('Stuudium-cli ' + ver1 + "\n")
+    print("NB! Kasutades seda programmi langeb kogu vastutus programmi kasutajale. Programmi looja ei vastuta tekkinud probleemide või kahju eest.\n")
     print('Vali tegevus:\n')
     print('[1] Logi sisse')
     print('[2] CLI abi')
@@ -585,14 +613,14 @@ def main():
     if sel1 == '4':
         exit()
     elif sel1 == '1':
-        os.system('clear')
+        os.system(os_clear)
         sisselogimine()
     elif sel1 == '2':
         helpcli()
     elif sel1 == '3':
         glob_settings()
     else:
-        os.system('clear')
+        os.system(os_clear)
         input('ANTUD NUMBER POLE VALIKUS....PROOVI UUESTI')
         main()
 
