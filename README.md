@@ -8,6 +8,12 @@ Stuud-cli on Pythonis kirjutatud terminali aplikatsioon, mis loob ühenduse Stuu
     * school_var - Kooli Stuudiumi veebiaadress (Vaikesätteks on Elva Gümnaasiumi aadress)(Kõik stuudiumi aadressid ei pruugi õigesti töötada)
     * (chromium_var - Chromium aplikatsiooni asukoht) - aegunud seadistus, saab teostada ka programmis
     * (chromedriver_var - Chromedriver asukoht) - aegunud seadistus, saab teostada ka programmis
+    * os_sel - operatsioon süsteemi säte.
+
+Error käsitluse ja logimise saab seadistada debug.json failis
+* debug_mode - vaikesäte "False" - vastandsäte "True"
+* logging_mode - vaikesäte "False" - vastandsäte "True"
+
 
 Chromedriver ja Chromium vaikesätteks on Linuxis olevad käivituskohad.
 
