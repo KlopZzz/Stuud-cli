@@ -3,15 +3,15 @@
 Stuud-cli on Pythonis kirjutatud terminali aplikatsioon, mis loob ühenduse Stuudiumiga läbi Chrome webdriveri, kasutades Selenium.
 ## Kasutamine
 
-1. Esmalt peab laadima chromedriveri ja chromium ühilduva versiooniga
+1. Esmalt peab laadima chromedriveri ja chromium binary ühilduva versiooniga
 2. Teisalt tuleb config.json sisestada vajalikud andmed
-    * school_var - Kooli Stuudiumi veebiaadress (Vaikesätteks on Elva Gümnaasiumi aadress)
-    * chromium_var - Chromium aplikatsiooni asukoht
-    * chromedriver_var - Chromedriver asukoht
+    * school_var - Kooli Stuudiumi veebiaadress (Vaikesätteks on Elva Gümnaasiumi aadress)(Kõik stuudiumi aadressid ei pruugi õigesti töötada)
+    * (chromium_var - Chromium aplikatsiooni asukoht) - aegunud seadistus, saab teostada ka programmis
+    * (chromedriver_var - Chromedriver asukoht) - aegunud seadistus, saab teostada ka programmis
 
-Chromedriver ja Chromium vaikesäteks on Linuxis olevad käivituskohad.
+Chromedriver ja Chromium vaikesätteks on Linuxis olevad käivituskohad.
 
-Kõike mainitud seadistusi on võimalik muuta ka läbi CLI liidese
+Kõiki mainitud seadistusi on võimalik muuta ka läbi CLI liidese
 ```sh
 python main.py --cli
 ```
@@ -43,7 +43,7 @@ Sisesta:
 ```sh
 pip install -r requirements.txt
 ```
-4. Programmi kasutus abi leiab käsuga
+4. Programmi kasutusabi leiab käsuga
 ```sh
 python main.py
 ```
