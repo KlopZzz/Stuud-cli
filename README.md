@@ -59,7 +59,7 @@ python main.py --cli
 - [x] Sisselogimis liides
 - [ ] Kursuste loendus
     - [x] Kursuste loendamine (gümnaasium)
-    - [ ] Keskmise hinde arvutamine
+    - [x] Keskmise hinde arvutamine (gümnaasium)
 - [ ] Kodutööde funktsioonid
 - [ ] 'Suhtlus' funktsioonid
     - [x] Hiljutiste sõnumite kuvamine
@@ -70,7 +70,7 @@ python main.py --cli
 - [ ] Operatsioon süsteemide toetus
     - [x] Linux
     - [ ] MacOS
-    - [ ] Windows
+    - [x] Windows
 
 ## Vajalikud repod
 * Python3
