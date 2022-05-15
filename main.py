@@ -17,6 +17,7 @@ import statistics
 import zipfile
 #import graphs as gr
 import platform
+import logging
 
 global ver1
 global avrg
@@ -28,6 +29,8 @@ global os_clear
 global stdnt_id
 global os_type
 global os_current_loc
+global debug_i
+global log_i
 
 msg_disp = 6
 ver1 = 'v0.1.2'
@@ -43,6 +46,16 @@ os_sel = config['os_sel']
 
 #write it back to the file
 with open('config.json', 'w') as f:
+    json.dump(config, f)
+
+
+with open('debug.json', 'r') as f:
+    config = json.load(f)
+
+debug_i = config['debug_mode']
+log_i = config['logging_mode']
+
+with open('debug.json', 'w') as f:
     json.dump(config, f)
 
 if platform.system() == "Linux":
@@ -64,7 +77,8 @@ def sisselogimine():
 
     url = school_var
     options = Options()
-    #options.add_argument("--headless")
+    if debug_a == "False":
+        options.add_argument("--headless")
     options.add_argument("--no-sandbox")
     options.add_argument("window-size=1200,1100")
     options.binary_location = chromium_set
@@ -525,6 +539,15 @@ def glob_settings():
     #write it back to the file
     with open('config.json', 'w') as f:
         json.dump(config, f)
+
+    with open('debug.json', 'r') as f:
+        config = json.load(f)
+
+    debug_i = config['debug_mode']
+    log_i = config['logging_mode']
+
+    with open('debug.json', 'w') as f:
+        json.dump(config, f)
     
     os.system(os_clear)
     print("Globaalsed sätted\n")
@@ -532,7 +555,8 @@ def glob_settings():
     print("[2] Chromium asukoht - Hetke seadistus: " + chromium_set)
     print("[3] Kooli Stuudiumi veebilehe aadress - Hetke seadistus: " + school_var)
     print("[4] Operatsiooni süsteemi valimine - Hetke seadistus: " + os_sel)
-    print('[5] Tagasi\n')
+    print("[5] Debug mode - Hetke seadistus: " + str(debug_i))
+    print('[6] Tagasi\n')
 
     opt1 = input('Sisesta: ')
     print()
@@ -571,7 +595,26 @@ def glob_settings():
         glob_settings()
     elif opt1 == '4':
         os_selection()
-    elif opt1 == '5':
+    elif opt1 == "5":
+
+        sel1 = input("Kas soovid käivitada program debug keskkonnas? [y/n]: ")
+        if sel1 == "y":
+
+            config = {"debug_mode": "True", "logging_mode": "True"}
+
+            with open('debug.json', 'w') as f:
+                json.dump(config, f)
+
+        elif sel1 == "n":
+
+            config = {"debug_mode": "False", "logging_mode": "False"}
+
+            with open('debug.json', 'w') as f:
+                json.dump(config, f)
+
+        glob_settings()
+
+    elif opt1 == '6':
         main()
     else:
         os.system(os_clear)
