@@ -741,7 +741,14 @@ def chrome_conf():
 def main():
 
     os.system(os_clear)
-    print('Stuudium-cli ' + ver1 + "\n")
+    print(""" 
+ _____ _                   _        _____  _     _____ 
+/  ___| |                 | |      /  __ \| |   |_   _|
+\ `--.| |_ _   _ _   _  __| |______| /  \/| |     | |  
+ `--. \ __| | | | | | |/ _` |______| |    | |     | |  
+/\__/ / |_| |_| | |_| | (_| |      | \__/\| |_____| |_ 
+\____/ \__|\__,_|\__,_|\__,_|       \____/\_____/\___/\n
+""")
     print("NB! Kasutades seda programmi langeb kogu vastutus programmi kasutajale. Programmi looja ei vastuta tekkinud probleemide või kahju eest.\n")
     print('Vali tegevus:\n')
     print('[1] Logi sisse')
