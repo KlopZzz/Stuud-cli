@@ -31,6 +31,8 @@ global os_type
 global os_current_loc
 global debug_i
 global log_i
+global average_g
+global course_c
 
 msg_disp = 6
 ver1 = 'v0.1.2'
@@ -46,6 +48,17 @@ os_sel = config['os_sel']
 
 #write it back to the file
 with open('config.json', 'w') as f:
+    json.dump(config, f)
+
+with open('grading.json', 'r') as f:
+    config = json.load(f)
+
+#edit the data
+average_g = config['average_grade']
+course_c = config['course_sum']
+
+#write it back to the file
+with open('grading.json', 'w') as f:
     json.dump(config, f)
 
 
@@ -534,6 +547,10 @@ def helpcli():
     --abi --help / python main.py --abi / Toob esile praeguse akna
 
     --cli / python main.py --cli / Käivitab Stuudiumi-CLI liidese
+
+    --course_count / Kuvab eelnevalt loetud kursuste arvu
+
+    --average_grade / Kuvab eelnevalt arvutatud keskmise hinde
     
     """)
 
@@ -783,6 +800,10 @@ try:
         main()
     elif len(sys.argv) == 1:
         helpcli()
+    elif str(sys.argv[1]) == '--course_count':
+        print(course_c)
+    elif str(sys.argv[1]) == '--average_grade':
+        print(average_g)
     else:
         print("Antud argumendid ei kehti!")
     exit()
