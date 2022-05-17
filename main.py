@@ -101,9 +101,9 @@ def sisselogimine():
 
     url = school_var
     options = Options()
-    if debug_a == "False":
+    if debug_i == "False":
         options.add_argument("--headless")
-        logging.info('Login system - debug_a > ' + debug_a)
+        logging.info('Login system - debug_i > ' + debug_i)
     options.add_argument("--no-sandbox")
     options.add_argument("window-size=1200,1100")
     options.binary_location = chromium_set
@@ -154,14 +154,15 @@ def peaaken():
     print('[5] Välju\n')
     crnt_url = driver.current_url
     j = 22
+    global stdnt_id
     stdnt_id = ''
-    s = False
-    while s == False:
+    s = True
+    while s == True:
         try:
             stdnt_id = stdnt_id + crnt_url[j]
             j = j + 1
         except IndexError:
-            s = True
+            s = False
 
 
     print('ÕPILASE ID STUUDIUMIS: ' + stdnt_id)
@@ -271,7 +272,7 @@ def kursus_cnt():
         val = input("Kas sa soovid alustada kursuste loendust uuesti? [y/n]: ")
         if val == 'y':
 
-            driver.get('https://elva.ope.ee/users/summary/'+stdnt_id)
+            driver.get('https://elva.ope.ee/users/summary/'+ stdnt_id)
             sleep(1)
 
             avrg = []
