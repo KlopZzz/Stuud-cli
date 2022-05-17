@@ -176,6 +176,7 @@ def peaaken():
     elif sel2 == '3':
         hmwrk()
     elif sel2 == '5':
+        driver.close()
         exit()
 """
 def graphs_i():
