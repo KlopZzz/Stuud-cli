@@ -15,9 +15,10 @@ import sys
 import json
 import statistics
 import zipfile
-#import graphs as gr
 import platform
 import logging
+
+from courses import *
 
 global ver1
 global avrg
@@ -150,8 +151,8 @@ def peaaken():
     print('[1] Kursuste arv')
     print('[2] Suhtlus')
     print('[3] Kodutöö')
-    #print('[4] Õpilase tulemuste graafikud')
-    print('[5] Välju\n')
+
+    print('[4] Välju\n')
     crnt_url = driver.current_url
     j = 22
     global stdnt_id
@@ -175,19 +176,9 @@ def peaaken():
         suhtlus()
     elif sel2 == '3':
         hmwrk()
-    elif sel2 == '5':
+    elif sel2 == '4':
         driver.close()
         exit()
-"""
-def graphs_i():
-
-    os.system('clear')
-    print('GRAAFIKUD\n')
-    print('VALI TEGEVUS\n')
-    print('[1] Kursuste arv')
-
-    exit()
-"""
 
 def hmwrk():
     v = '1'
