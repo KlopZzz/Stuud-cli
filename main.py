@@ -170,7 +170,7 @@ def peaaken():
     print('[4] Välju\n')
     crnt_url = driver.current_url
 
-    #Fix this
+    #Fix this (j=22)
     j = 22
     global stdnt_id
     stdnt_id = ''
@@ -280,9 +280,10 @@ def kursus_cnt():
         print("Su üldine keskmine hinne on " + str(average_grade))
         print()
         val = input("Kas sa soovid alustada kursuste loendust uuesti? [y/n]: ")
+
         if val == 'y':
 
-            driver.get('https://elva.ope.ee/users/summary/'+ stdnt_id)
+            driver.get(school_var+'users/summary/'+ stdnt_id)
             sleep(1)
 
             avrg = []
@@ -349,7 +350,7 @@ def kursus_cnt():
         elif val == 'n':
             peaaken()
     if cours_sum == 0 and average_grade == 0:
-        driver.get('https://elva.ope.ee/users/summary/'+stdnt_id)
+        driver.get(school_var+'users/summary/'+stdnt_id)
         sleep(1)
 
         avrg = []
@@ -449,7 +450,7 @@ def disp_msg():
     global msg_disp
     i = 0
     num = '2'
-    driver.get('https://elva.ope.ee/suhtlus/')
+    driver.get(school_var+'suhtlus/')
     sleep(2)
     for i in range(msg_disp):
         try:
