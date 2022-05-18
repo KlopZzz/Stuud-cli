@@ -106,7 +106,13 @@ def sisselogimine():
         options.add_argument("--headless")
         logging.info('Login system - debug_i > ' + debug_i)
     options.add_argument("--no-sandbox")
+
+    logging.info('Driver configuration --no-sandbox')
+
     options.add_argument("window-size=1200,1100")
+
+    logging.info('Driver configuration window-size=1200,1100')
+
     options.binary_location = chromium_set
 
     global chk1
@@ -124,17 +130,23 @@ def sisselogimine():
 
     os.system('clear')
     print('SISSELOGIMINE PALUN OODAKE')
+
+    logging.info('Login System --> Started login')
+
     sleep(2)
     
     try:
          valeprl = driver.find_element(By.XPATH, "//p[@class='status-message error']").text
     except NoSuchElementException:
+        logging.info('Login System - Login Succesful')
         chk1 = True
 
     if chk1 == True:
         peaaken()
     else:
         driver.close()
+        logging.info('Login System - Closed driver')
+        logging.info('Login System -> Wrong username or password')
         os.system('clear')
         print('Sisestatud kasutajatunnus või parool on vale')
         input("Vajuta enter et proovida uuesti...")
@@ -144,7 +156,10 @@ def sisselogimine():
 
 def peaaken():
 
-    driver.get('https://elva.ope.ee/auth/')
+    driver.get(school_var)
+
+    logging.info('Main menu - Opened '+school_var)
+
     os.system('clear')
     print('TE OLETE EDUKALT SISSE LOGITUD\n')
     print('VALI TEGEVUS\n')
@@ -154,6 +169,8 @@ def peaaken():
 
     print('[4] Välju\n')
     crnt_url = driver.current_url
+
+    #Fix this
     j = 22
     global stdnt_id
     stdnt_id = ''
@@ -165,6 +182,7 @@ def peaaken():
         except IndexError:
             s = False
 
+    logging.info('Main menu - stdnt_id > '+stdnt_id)
 
     print('ÕPILASE ID STUUDIUMIS: ' + stdnt_id)
     sel2 = input('Sisesta: ')
