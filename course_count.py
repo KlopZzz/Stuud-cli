@@ -5,8 +5,6 @@ import json
 import statistics
 import logging
 
-from stuud import *
-
 def count():
 
     input("ENTER")
@@ -23,6 +21,10 @@ def count():
     #write it back to the file
     with open('grading.json', 'w') as f:
         json.dump(config, f)
+
+    from stuud import driver
+    from stuud import school_var
+    from stuud import stdnt_id
 
     driver.get(school_var+'users/summary/'+ stdnt_id)
     sleep(1)
@@ -96,6 +98,6 @@ def count():
 run_once = 0
 while 1:
     if run_once == 0:
-        myFunction()
+        count()
         run_once = 1
     break

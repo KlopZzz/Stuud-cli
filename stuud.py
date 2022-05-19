@@ -18,9 +18,6 @@ import zipfile
 import platform
 import logging
 
-from course_count import *
-import course_count
-
 global ver1
 global avrg
 global chromium_set
@@ -265,9 +262,6 @@ def hmwrk():
 
 def kursus_cnt():
 
-    from course_count import count
-    import course_count
-
     os.system(os_clear)
     print('KURSUSTE LOENDUS GÜMNAASIUMILE\n')
 
@@ -289,8 +283,10 @@ def kursus_cnt():
         val = input("Kas sa soovid alustada kursuste loendust uuesti? [y/n]: ")
 
         if val == 'y':
+            
+            import course_count
 
-            crs = count()
+            crs = course_count.count()
 
             os.system(os_clear)
 
