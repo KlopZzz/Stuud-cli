@@ -18,7 +18,8 @@ import zipfile
 import platform
 import logging
 
-from courses import *
+import driver_init
+from driver_init import driver
 
 global ver1
 global avrg
@@ -90,8 +91,6 @@ logging.info('System configuration - os_clear > ' + os_clear)
 logging.info('System configuration - os_current_loc > ' + os_current_loc)
 logging.info('System configuration - os_type > ' + os_type)
 
-
-
 def sisselogimine():
 
     os.system(os_clear)
@@ -101,28 +100,7 @@ def sisselogimine():
 
 
     url = school_var
-    options = Options()
-    if debug_i == "False":
-        options.add_argument("--headless")
-        logging.info('Login system - debug_i > ' + debug_i)
-    options.add_argument("--no-sandbox")
-
-    logging.info('Driver configuration --no-sandbox')
-
-    options.add_argument("window-size=1200,1100")
-
-    logging.info('Driver configuration window-size=1200,1100')
-
-    options.binary_location = chromium_set
-
-    global chk1
-    chk1 = False
-    global driver
-    driver = webdriver.Chrome(
-        chrome_options=options,
-        executable_path=chromedriver_set,
-    )
-    driver.maximize_window()
+    
     driver.get(url)
     WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "input#username"))).send_keys(usrnme)
     driver.find_element_by_css_selector("input#password").send_keys(paswrd)
@@ -160,7 +138,7 @@ def peaaken():
 
     logging.info('Main menu - Opened '+school_var)
 
-    os.system('clear')
+    os.system(os_clear)
     print('TE OLETE EDUKALT SISSE LOGITUD\n')
     print('VALI TEGEVUS\n')
     print('[1] Kursuste arv')
@@ -170,7 +148,7 @@ def peaaken():
     print('[4] Välju\n')
     crnt_url = driver.current_url
 
-    #Fix this
+    #Fix this (j=22)
     j = 22
     global stdnt_id
     stdnt_id = ''
@@ -261,7 +239,8 @@ def hmwrk():
     
 
 def kursus_cnt():
-    os.system('clear')
+
+    os.system(os_clear)
     print('KURSUSTE LOENDUS GÜMNAASIUMILE\n')
 
     with open('grading.json', 'r') as f:
@@ -280,140 +259,39 @@ def kursus_cnt():
         print("Su üldine keskmine hinne on " + str(average_grade))
         print()
         val = input("Kas sa soovid alustada kursuste loendust uuesti? [y/n]: ")
+
         if val == 'y':
-
-            driver.get('https://elva.ope.ee/users/summary/'+ stdnt_id)
-            sleep(1)
-
-            avrg = []
-            nmbrs = ['1', '2', '3', '4', '5', 'A']
-            c = '4'
-            p = '1'
-            b = '1'
-            kursus_sum = 0
-            z = 0
-            g = True
-
-            while g == True:
-                if g == False:
-                    break
-                try:
-                    vrbl = driver.find_element(By.XPATH, '/html/body/div/div[4]/div[1]/div[1]/div[1]/div[2]/div[2]/table/tbody/tr[' + b + ']/td[' + c + ']/span[' + p + ']').text
-                    if c == '7':
-                        b = int(b)
-                        b = b + 1
-                        b = str(b)
-                        c = '4'
-                        p = '1'
-                    elif vrbl in nmbrs:
-                        try:
-                            z = int(vrbl)
-                            avrg.append(z)
-                        except ValueError:
-                            pass
-                        kursus_sum = kursus_sum + 1
-                        p = int(p)
-                        p = p + 1
-                        p = str(p)
-                    elif len(vrbl) == 2:
-                        kursus_sum = kursus_sum + 2
-                        p = int(p)
-                        p = p + 1
-                        p = str(p)
-                    else:
-                        p = int(p)
-                        p = p + 1
-                        p = str(p)
-                except NoSuchElementException:
-                    if c == '7':
-                        b = int(b)
-                        b = b + 1
-                        b = str(b)
-                        c = '4'
-                        p = '1'
-                        try:
-                            vrbl = driver.find_element(By.XPATH, '/html/body/div/div[4]/div[1]/div[1]/div[1]/div[2]/div[2]/table/tbody/tr[' + b + ']/td[' + c + ']/span[' + p + ']').text
-                        except NoSuchElementException:
-                            g = False
-                    else:
-                        c = int(c)
-                        c = c + 1
-                        c = str(c)
-                        p = '1'
             
-            config = {"average_grade": statistics.mean(avrg), "course_sum": kursus_sum}
-            with open('grading.json', 'w') as f:
-                json.dump(config, f)
-            kursus_cnt()
+            import course_count
+            from course_count import kursus_sum
+            from course_count import avrg_g
+
+            os.system(os_clear)
+
+            print ('SUL ON ' + str(kursus_sum) + ' KURSUST')
+            print ('Su üldine keskmine hinne on ' + str(avrg_g))
+            print(' ')
+            input('VAJUTA ENTER ET MINNA TAGASI...')
+
+            peaaken()
+
 
         elif val == 'n':
+
             peaaken()
+
+
     if cours_sum == 0 and average_grade == 0:
-        driver.get('https://elva.ope.ee/users/summary/'+stdnt_id)
-        sleep(1)
-
-        avrg = []
-        nmbrs = ['1', '2', '3', '4', '5', 'A']
-        c = '4'
-        p = '1'
-        b = '1'
-        kursus_sum = 0
-        z = 0
-        g = True
-
-        while g == True:
-            if g == False:
-                break
-            try:
-                vrbl = driver.find_element(By.XPATH, '/html/body/div/div[4]/div[1]/div[1]/div[1]/div[2]/div[2]/table/tbody/tr[' + b + ']/td[' + c + ']/span[' + p + ']').text
-                if c == '7':
-                    b = int(b)
-                    b = b + 1
-                    b = str(b)
-                    c = '4'
-                    p = '1'
-                elif vrbl in nmbrs:
-                    try:
-                        z = int(vrbl)
-                        avrg.append(z)
-                    except ValueError:
-                        pass
-                    kursus_sum = kursus_sum + 1
-                    p = int(p)
-                    p = p + 1
-                    p = str(p)
-                elif len(vrbl) == 2:
-                    kursus_sum = kursus_sum + 2
-                    p = int(p)
-                    p = p + 1
-                    p = str(p)
-                else:
-                    p = int(p)
-                    p = p + 1
-                    p = str(p)
-            except NoSuchElementException:
-                if c == '7':
-                    b = int(b)
-                    b = b + 1
-                    b = str(b)
-                    c = '4'
-                    p = '1'
-                    try:
-                        vrbl = driver.find_element(By.XPATH, '/html/body/div/div[4]/div[1]/div[1]/div[1]/div[2]/div[2]/table/tbody/tr[' + b + ']/td[' + c + ']/span[' + p + ']').text
-                    except NoSuchElementException:
-                        g = False
-                else:
-                    c = int(c)
-                    c = c + 1
-                    c = str(c)
-                    p = '1'
-
-        config = {"average_grade": statistics.mean(avrg), "course_sum": kursus_sum}
-        with open('grading.json', 'w') as f:
-                json.dump(config, f)
         
+        import course_count
+        from course_count import kursus_sum
+        from course_count import avrg_g
+
+
+        os.system(os_clear)
+
         print ('SUL ON ' + str(kursus_sum) + ' KURSUST')
-        print ('Su üldine keskmine hinne on ' + str(statistics.mean(avrg)))
+        print ('Su üldine keskmine hinne on ' + str(avrg_g))
         print(' ')
         input('VAJUTA ENTER ET MINNA TAGASI...')
         peaaken()
@@ -422,7 +300,7 @@ def kursus_cnt():
 
 
 def suhtlus():
-    os.system('clear')
+    os.system(os_clear)
     print('PEALEHT >> SUHTLUS')
     print('VALI TEGEVUS\n')
     print('[1] Otsi sõnumit')
@@ -449,7 +327,7 @@ def disp_msg():
     global msg_disp
     i = 0
     num = '2'
-    driver.get('https://elva.ope.ee/suhtlus/')
+    driver.get(school_var+'/suhtlus/')
     sleep(2)
     for i in range(msg_disp):
         try:
