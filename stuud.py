@@ -18,6 +18,9 @@ import zipfile
 import platform
 import logging
 
+import driver_init
+
+
 global ver1
 global avrg
 global chromium_set
@@ -88,8 +91,6 @@ logging.info('System configuration - os_clear > ' + os_clear)
 logging.info('System configuration - os_current_loc > ' + os_current_loc)
 logging.info('System configuration - os_type > ' + os_type)
 
-
-
 def sisselogimine():
 
     os.system(os_clear)
@@ -99,30 +100,7 @@ def sisselogimine():
 
 
     url = school_var
-    options = Options()
-    if debug_i == "False":
-        options.add_argument("--headless")
-        logging.info('Login system - debug_i > ' + debug_i)
-    options.add_argument("--no-sandbox")
-
-    logging.info('Driver configuration --no-sandbox')
-
-    options.add_argument("window-size=1200,1100")
-
-    logging.info('Driver configuration window-size=1200,1100')
-
-    options.binary_location = chromium_set
-
-    global chk1
-    global driver
-
-    chk1 = False
-
-    driver = webdriver.Chrome(
-        chrome_options=options,
-        executable_path=chromedriver_set,
-    )
-    driver.maximize_window()
+    
     driver.get(url)
     WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "input#username"))).send_keys(usrnme)
     driver.find_element_by_css_selector("input#password").send_keys(paswrd)

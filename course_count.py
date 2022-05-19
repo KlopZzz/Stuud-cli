@@ -5,9 +5,24 @@ import json
 import statistics
 import logging
 
+import driver_init
+
 def count():
 
-    input("ENTER")
+    with open('config.json', 'r') as f:
+    config = json.load(f)
+
+    #edit the data
+    chromium_set = config['chromium_set']
+    chromedriver_set = config['chromedriver_set']
+    school_var = config['school_var']
+    os_sel = config['os_sel']
+
+    #write it back to the file
+    with open('config.json', 'w') as f:
+        json.dump(config, f)
+
+    input("ENTER1")
 
     global kursus_sum
     global avrg_g
@@ -22,12 +37,13 @@ def count():
     with open('grading.json', 'w') as f:
         json.dump(config, f)
 
-    from stuud import driver
-    from stuud import school_var
-    from stuud import stdnt_id
+
+    input("ENTER3")
 
     driver.get(school_var+'users/summary/'+ stdnt_id)
     sleep(1)
+
+    input("ENTER4")
 
     avrg = []
     nmbrs = ['1', '2', '3', '4', '5', 'A']
@@ -94,10 +110,3 @@ def count():
     input("ENTER")
 
     return[kursus_sum, avrg_g]
-
-run_once = 0
-while 1:
-    if run_once == 0:
-        count()
-        run_once = 1
-    break
