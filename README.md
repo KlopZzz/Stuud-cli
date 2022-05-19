@@ -19,7 +19,7 @@ Chromedriver ja Chromium vaikesätteks on Linuxis olevad käivituskohad.
 
 Kõiki mainitud seadistusi on võimalik muuta ka läbi CLI liidese
 ```sh
-python main.py --cli
+python stuud.py --cli
 ```
 Vali tegevuseks Seadistus (nr. 3)
 ```sh
@@ -51,15 +51,15 @@ pip install -r requirements.txt
 ```
 4. Programmi kasutusabi leiab käsuga
 ```sh
-python main.py
+python stuud.py
 ```
 VÕI
 ```sh
-python main.py --abi
+python stuud.py --abi
 ```
 5. CLI liidese saab käivitada käsuga
 ```sh
-python main.py --cli
+python stuud.py --cli
 ```
 ## Töötavad funktsioonid
 - [x] Sisselogimis liides
