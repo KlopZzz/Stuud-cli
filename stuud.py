@@ -19,7 +19,7 @@ import platform
 import logging
 
 import driver_init
-
+from driver_init import driver
 
 global ver1
 global avrg
@@ -263,13 +263,13 @@ def kursus_cnt():
         if val == 'y':
             
             import course_count
-
-            crs = course_count.count()
+            from course_count import kursus_sum
+            from course_count import avrg_g
 
             os.system(os_clear)
 
-            print ('SUL ON ' + str(crs[0]) + ' KURSUST')
-            print ('Su üldine keskmine hinne on ' + str(crs[1]))
+            print ('SUL ON ' + str(kursus_sum) + ' KURSUST')
+            print ('Su üldine keskmine hinne on ' + str(avrg_g))
             print(' ')
             input('VAJUTA ENTER ET MINNA TAGASI...')
 
