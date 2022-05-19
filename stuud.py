@@ -283,12 +283,15 @@ def kursus_cnt():
 
     if cours_sum == 0 and average_grade == 0:
         
-        crs = course_count.count()
+        import course_count
+        from course_count import kursus_sum
+        from course_count import avrg_g
+
 
         os.system(os_clear)
 
-        print ('SUL ON ' + str(crs[0]) + ' KURSUST')
-        print ('Su üldine keskmine hinne on ' + str(crs[1]))
+        print ('SUL ON ' + str(kursus_sum) + ' KURSUST')
+        print ('Su üldine keskmine hinne on ' + str(avrg_g))
         print(' ')
         input('VAJUTA ENTER ET MINNA TAGASI...')
         peaaken()
@@ -324,7 +327,7 @@ def disp_msg():
     global msg_disp
     i = 0
     num = '2'
-    driver.get(school_var+'suhtlus/')
+    driver.get(school_var+'/suhtlus/')
     sleep(2)
     for i in range(msg_disp):
         try:
