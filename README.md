@@ -61,6 +61,51 @@ python stuud.py --abi
 ```sh
 python stuud.py --cli
 ```
+
+## Lisa stuud alias bash-i configuration faili
+
+1. Tee kindlaks, et stuud.py on võimalik käivitada
+```sh
+chmod +x stuud.py
+```
+
+2. Lisa alias bashrc faili
+
+```sh
+nano ~/.bashrc
+```
+
+```sh
+alias stuud='/faili/asukoht/stuud.py'
+```
+
+3. Värskenda bashrc sätted
+```sh
+source ~/.bashrc
+```
+
+## Lisa stuud alias fish-i shell configuration faili
+
+1. Tee kindlaks, et stuud.py on võimalik käivitada
+```sh
+chmod +x stuud.py
+```
+
+2. Lisa alias fish config faili
+
+```sh
+nano ~/.config/fish/config.fish
+```
+
+```sh
+alias stuud='/faili/asukoht/stuud.py'
+```
+
+3. Värskenda fish config sätted
+```sh
+source ~/.config/fish/config.fish
+```
+
 ## Töötavad funktsioonid
 - [x] Sisselogimis liides
 - [ ] Kursuste loendus
