@@ -71,7 +71,6 @@ python stuud.py --cli
     - [x] Hiljutiste sõnumite kuvamine
     - [ ] Sõnumite saatmine
     - [ ] Automaat seadistused
-- [ ] Andmebaasi funktsioonid
 - [x] Stuudium-cli sätted
 - [ ] Operatsioon süsteemide toetus
     - [x] Linux
