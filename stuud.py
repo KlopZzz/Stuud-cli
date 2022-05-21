@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from selenium import webdriver
 from lxml import html
 from time import sleep
