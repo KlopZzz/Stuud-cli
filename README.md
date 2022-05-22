@@ -115,12 +115,14 @@ source ~/.config/fish/config.fish
 - [ ] 'Suhtlus' funktsioonid
     - [x] Hiljutiste sõnumite kuvamine
     - [ ] Sõnumite saatmine
-    - [ ] Automaat seadistused
 - [x] Stuudium-cli sätted
 - [ ] Operatsioon süsteemide toetus
     - [x] Linux
     - [ ] MacOS
     - [x] Windows
+- [ ] Automaat seadistused
+    - [x] Chromedriver seadistus
+    - [ ] Chrome binary seadistus
 
 ## Vajalikud repod
 * Python3
