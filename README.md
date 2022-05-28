@@ -5,7 +5,7 @@
 _Enne projekti pooleli jätmist parandan Stuudiumi õpilase ID leidmise funktsiooni URL-ist_
 
 ## Kirjeldus
-Stuud-cli on Pythonis kirjutatud terminali aplikatsioon, mis loob ühenduse Stuudiumiga läbi Chrome webdriveri, kasutades Selenium.
+Stuud-cli on Pythonis kirjutatud terminali aplikatsioon, mis loob ühenduse Stuudiumiga läbi Chrome webdriveri, kasutades andmete kogumiseks Selenium-i.
 ## Kasutamine
 
 1. Esmalt peab laadima chromedriveri ja chromium binary, ühilduva versiooniga
