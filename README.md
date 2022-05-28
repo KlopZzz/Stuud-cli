@@ -1,5 +1,5 @@
 # Stuud-cli
-**Suure tõenäosusega ma lähi tulevikus enam ei panusta sellesse projekti, kuna see täitis mu isikliku ülesande.**
+**Suure tõenäosusega ma lähitulevikus enam ei panusta sellesse projekti, kuna see täitis mu isikliku ülesande.**
 **Edaspidiselt ma commit-in sellesse projekti vähesel määral ning õpieesmärgina. Kui soovid projekti panustada lisa test branch-i pull request ning ma vaatan selle üle, kui antud funktsioon on asjakohane ja töötab, siis ma lisan selle master branch-i.**
 
 ### Kirjeldus
